@@ -28,7 +28,7 @@ def get_data_as_np(hist):
         hist["High"].to_numpy(),
         hist["Low"].to_numpy(),
         hist["Close"].to_numpy(),
-        hist["Volume"].to_numpy(),
+        #hist["Volume"].to_numpy(),
     ]
 
     for d in range(0,len(np_data)-(MODEL_ROW_TICKS)):  #Fuer jede Zeile (Tick - Tag, Stunde, etc)
@@ -40,6 +40,20 @@ def get_data_as_np(hist):
             model_data = model_row  # erste Zeile im Modell
         else:
             model_data = np.vstack([model_data, model_row]) # eine neue Zeile hinzufuegen
+
+    return model_data
+
+
+def get_many(stocks):
+
+    model_data = []
+    for k in stocks:
+        histdata = get_data_as_np(stocks[k])
+        print (k)
+        if len(model_data) == 0:    #Wenn Modell leer ->
+            model_data = histdata  # model_data = historical ticker Data
+        else:
+            model_data = np.hstack([model_data, histdata]) # Daten von neuen Ticker rechts hinzufügen
 
     return model_data
 
@@ -64,4 +78,6 @@ if __name__ == '__main__':
     ticker = stocks["CSCO"]
     y = get_diff_response_of(ticker)
     x = get_data_as_np(ticker)
+    x = get_many(stocks)
+    print(x,x.shape)
     pass
