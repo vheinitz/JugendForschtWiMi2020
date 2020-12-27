@@ -15,7 +15,7 @@ def update_stocks( save_path, tickers ):
                         start='2019-01-01',
                         end='2020-10-13',
                         progress=True,
-                        interval="1h")
+                        interval="1d")
 
                 hist.to_csv("%s/%s.csv" % (save_path,t))
                 print("Downloaded %s" % (t))
