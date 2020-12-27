@@ -2,7 +2,7 @@
 BASE_PATH="TickerData"
 ClassIdUp = 1
 ClassIdDown = 2
-MODEL_ROW_TICKS = 5
+MODEL_ROW_TICKS = 4
 TICKERS=[
 "ATVI"
 ,"ADBE"
