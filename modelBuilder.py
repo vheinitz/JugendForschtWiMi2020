@@ -16,6 +16,8 @@ import dataLoader
 import dataBuilder
 from settings import BASE_PATH
 from settings import TICKERS
+from settings import ClassIdUp
+from settings import ClassIdDown
 from settings import MODEL_ROW_TICKS
 
 
@@ -32,7 +34,7 @@ def test_classifier(X,Y):
         #,"svm linear" : svm.SVC(kernel='linear', C=1)
         "svm linear c10" : svm.SVC(kernel='linear', C=10, gamma='auto')
         #,"svm poly" : svm.SVC(kernel='poly', C=10, gamma='auto')
-        #,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
+        ,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
         #,"adaboost" : AdaBoostClassifier()
         #,"mlpc" : MLPClassifier(alpha=1, max_iter=1000)
         #,"dec tree" : DecisionTreeClassifier(max_depth=15)
@@ -57,6 +59,9 @@ def test_classifier(X,Y):
 
 def analyze_classifier(x,y):
 
+    ClassIdUpCnt = y.count(ClassIdUp)
+    ClassIdDownCnt = y.count(ClassIdDown)
+
     classifiers_result = test_classifier(x,y)
     N=10
     for i in range(0,N):
@@ -67,7 +72,7 @@ def analyze_classifier(x,y):
 
     for k in classifiers_result:
         classifiers_result[k] /= (N+1)
-    print(classifiers_result)
+    print(classifiers_result, ClassIdUpCnt, ClassIdDownCnt, (ClassIdUpCnt*1.0)/ClassIdDownCnt)
 
 
 
@@ -80,5 +85,5 @@ if __name__ == '__main__':
         y = dataBuilder.get_diff_response_of(ticker)
         x = dataBuilder.get_many(stocks)
         yc = dataBuilder.diff_response_to_class(y)
-        print (t)
+        #print (t)
         analyze_classifier(x,yc)

@@ -49,14 +49,13 @@ def get_many(stocks):
     model_data = []
     for k in stocks:
         histdata = get_data_as_np(stocks[k])
-        print (k)
+        #print (k)
         if len(model_data) == 0:    #Wenn Modell leer ->
             model_data = histdata  # model_data = historical ticker Data
         else:
             model_data = np.hstack([model_data, histdata]) # Daten von neuen Ticker rechts hinzufügen
 
     return model_data
-
 
 def diff_response_to_class(diffs):
     classes = []
@@ -65,9 +64,7 @@ def diff_response_to_class(diffs):
             classes.append(1)
         else:
             classes.append(2)
-
     return classes
-
 
 
 
