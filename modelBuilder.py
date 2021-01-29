@@ -32,7 +32,7 @@ def test_classifier(X,Y):
         #,"svm linear" : svm.SVC(kernel='linear', C=1)
         "svm linear c10" : svm.SVC(kernel='linear', C=10, gamma='auto')
         #,"svm poly" : svm.SVC(kernel='poly', C=10, gamma='auto')
-        #,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
+        ,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
         #,"adaboost" : AdaBoostClassifier()
         #,"mlpc" : MLPClassifier(alpha=1, max_iter=1000)
         #,"dec tree" : DecisionTreeClassifier(max_depth=15)
@@ -50,7 +50,6 @@ def test_classifier(X,Y):
         scr = Classifiers[clf].score(X_test, y_test)
         result[clf]=scr
         #print(clf,scr)
-
     #print(result)
     return result
 

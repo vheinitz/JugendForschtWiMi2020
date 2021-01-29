@@ -49,7 +49,7 @@ def get_many(stocks):
     model_data = []
     for k in stocks:
         histdata = get_data_as_np(stocks[k])
-        print (k)
+        #print (k)
         if len(model_data) == 0:    #Wenn Modell leer ->
             model_data = histdata  # model_data = historical ticker Data
         else:
@@ -80,4 +80,4 @@ if __name__ == '__main__':
     x = get_data_as_np(ticker)
     x = get_many(stocks)
     print(x,x.shape)
-    pass
+

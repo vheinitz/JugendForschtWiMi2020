@@ -2,7 +2,7 @@
 BASE_PATH="TickerData"
 ClassIdUp = 1
 ClassIdDown = 2
-MODEL_ROW_TICKS = 4
+MODEL_ROW_TICKS = 5
 TICKERS=[
 "ATVI"
 ,"ADBE"
@@ -38,6 +38,15 @@ TICKERS=[
 ,"CPRT"
 ,"COST"
 ,"CSX"
+,"TSLA"
+,"KHC"
+,"MU"
+,"NFLX"
+,"NVDA"
+,"PYPL"
+,"MSFT"
+,"INTC"
+,"EBAY"
     ]
 
 print(__name__)
