@@ -5,15 +5,15 @@ from settings import BASE_PATH
 from settings import TICKERS
 from settings import MODEL_ROW_TICKS
 
-def get_diff_response_of(hist):
+def get_diff_response_of(hist, futureTicks=0):
     response_data = []
 
     pdColumn = hist["Close"]
     np_data = pdColumn.to_numpy()
 
-    for d in range(MODEL_ROW_TICKS,len(np_data)):  #Fuer jede Zeile (Tick - Tag, Stunde, etc)
-        nextValue = np_data[d]
-        prevValue = np_data[d-1]
+    for d in range(MODEL_ROW_TICKS,len(np_data)-futureTicks):  #Fuer jede Zeile (Tick - Tag, Stunde, etc)
+        nextValue = np_data[d+futureTicks]
+        prevValue = np_data[d+futureTicks-1]
         resultValue = nextValue - prevValue
         response_data.append(resultValue)
 
@@ -57,6 +57,7 @@ def get_many(stocks):
 
     return model_data
 
+
 def diff_response_to_class(diffs):
     classes = []
     for v in diffs:
@@ -64,8 +65,8 @@ def diff_response_to_class(diffs):
             classes.append(1)
         else:
             classes.append(2)
-    return classes
 
+    return classes
 
 
 if __name__ == '__main__':
