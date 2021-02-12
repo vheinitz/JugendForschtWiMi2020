@@ -45,8 +45,8 @@ def test_classifier(X,Y):
         #,"svm linear" : svm.SVC(kernel='linear', C=1)
         "svm linear c10" : svm.SVC(kernel='linear', C=10, gamma='auto')
         #,"svm poly" : svm.SVC(kernel='poly', C=10, gamma='auto')
-        ,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
-        ,"svm flinear c10": svm.SVC(kernel='linear', C=10, gamma='auto')
+        #,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
+        #,"svm flinear c10": svm.SVC(kernel='linear', C=10, gamma='auto')
         #,"adaboost" : AdaBoostClassifier()
         ,"mlpc" : MLPClassifier(alpha=1, max_iter=1000)
         #,"dec tree" : DecisionTreeClassifier(max_depth=15)
@@ -109,7 +109,7 @@ def analyze_result(x,y, alignClassNumber=False, tickerName="", classifier=""):
     ClassIdDownCnt = y.count(ClassIdDown)
 
     classifiers_result = test_classifier(x,y)
-    N=10
+    N=4
     for i in range(0,N):
         tmp = test_classifier(x,y)
         #print("Iteration N: %d" %(i))
@@ -126,33 +126,34 @@ if __name__ == '__main__':
 
     stocks = dataLoader.load_stocks(BASE_PATH, TICKERS)
     resultsl = []
-    resultss = []
-    fiftyline = []
-    resultsf = []
+    #resultss = []
+    #fiftyline = []
+    #resultsf = []
     resultsn = []
-    resultsp = []
-    for t in TICKERS:
-        print(t)
-        ticker = stocks[t]
-        y = dataBuilder.get_diff_response_of(ticker,futureTicks=0)
+    #resultsp = []
+    for d in range(30):
+        print(d)
+        ticker = stocks["COST"]
+        y = dataBuilder.get_diff_response_of(ticker,futureTicks=d)
         x = dataBuilder.get_many(stocks)
         yc = dataBuilder.diff_response_to_class(y)
-        resultsl.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName=t, classifier='svm linear c10'))
-        resultss.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName=t, classifier='svm sigmoid'))
-        resultsf.append(analyze_result(x[0:len(y)], yc, alignClassNumber=False, tickerName=t, classifier='svm flinear c10'))
-        resultsn.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName=t, classifier='mlpc'))
-        resultsp.append(passive_result(yc,t))
-    print(sum(resultsl)/len(TICKERS))
+        resultsl.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName="COST", classifier='svm linear c10'))
+        #resultss.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName="GOOG", classifier='svm sigmoid'))
+        #resultsf.append(analyze_result(x[0:len(y)], yc, alignClassNumber=False, tickerName="GOOG", classifier='svm flinear c10'))
+        resultsn.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName="GOOG", classifier='mlpc'))
+        #resultsp.append(passive_result(yc,t))
+    print(sum(resultsl)/30)
     print(np.std([resultsl]))
-    print(sum(resultsn)/len(TICKERS))
+    print(sum(resultsn)/30)
     print(np.std([resultsn]))
-    print(sum(resultss)/len(TICKERS))
-    print(np.std([resultss]))
-    print(sum(resultsp)/len(TICKERS))
-    print(np.std([resultsp]))
-    print(sum(resultsf)/len(TICKERS))
-    print(np.std([resultsf]))
-    print(TICKERS)
-    plt.plot(sorted(resultsl), "bo", fiftyline, "r--",sorted(resultsf), "y*",sorted(resultsp),"g+",sorted(resultss),"m^",sorted(resultsn),"c>")
+    #print(sum(resultss)/30)
+    #print(np.std([resultss]))
+    #print(sum(resultsp)/30)
+    #print(np.std([resultsp]))
+    #print(sum(resultsf)/30)
+    #print(np.std([resultsf]))
+    #print(TICKERS)
+    #plt.plot(resultsl, "bo", fiftyline, "r--",resultsf, "y*",resultsp,"g+",resultss,"m^",resultsn,"c>")
+    plt.plot(resultsl, "bo",resultsn,"c>")
     plt.show()
 
