@@ -14,7 +14,7 @@ def get_diff_response_of(hist, futureTicks=0):
     for d in range(MODEL_ROW_TICKS,len(np_data)-futureTicks):  #Fuer jede Zeile (Tick - Tag, Stunde, etc)
         nextValue = np_data[d+futureTicks]
         prevValue = np_data[d+futureTicks-1]
-        resultValue = nextValue - prevValue
+        resultValue = prevValue - nextValue
         response_data.append(resultValue)
 
     y = np.array(response_data)
@@ -61,7 +61,7 @@ def get_many(stocks):
 def diff_response_to_class(diffs):
     classes = []
     for v in diffs:
-        if ( v < 0 ):
+        if ( v <= 0 ):
             classes.append(1)
         else:
             classes.append(2)

@@ -17,8 +17,8 @@ def predict(X,Y):
 
     # == Hier Algorithmus auswaehlen
     Classifiers = {
-        "svm linear c10" : svm.SVC(kernel='linear', C=10, gamma='auto')
-        ,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
+        #"svm linear c10" : svm.SVC(kernel='linear', C=10, gamma='auto')
+        "svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
 
     }
     for clf in Classifiers:
@@ -27,7 +27,7 @@ def predict(X,Y):
         scr = Classifiers[clf].predict(X_test)
         result[clf]=scr
     print(result)
-    print(clf)
+
 
     return result
 

@@ -13,7 +13,7 @@ def update_stocks( save_path, tickers ):
             try:
                 hist = yf.download(t,
                         start='2019-01-01',
-                        end='2020-10-13',
+                        end='2020-01-01',
                         progress=True,
                         interval="1d")
 

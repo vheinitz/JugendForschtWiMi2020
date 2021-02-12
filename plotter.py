@@ -1,4 +1,14 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from sklearn import svm
+import dataLoader
+import dataBuilder
+from settings import BASE_PATH
+from settings import TICKERS
+from settings import ClassIdUp
+from settings import ClassIdDown
+from settings import MODEL_ROW_TICKS
 from sklearn.preprocessing import normalize
 from sklearn import svm
 from sklearn.neural_network import MLPClassifier
@@ -35,8 +45,9 @@ def test_classifier(X,Y):
         "svm linear c10" : svm.SVC(kernel='linear', C=10, gamma='auto')
         #,"svm poly" : svm.SVC(kernel='poly', C=10, gamma='auto')
         ,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
+        ,"svm flinear c10": svm.SVC(kernel='linear', C=10, gamma='auto')
         #,"adaboost" : AdaBoostClassifier()
-        #,"mlpc" : MLPClassifier(alpha=1, max_iter=1000)
+        ,"mlpc" : MLPClassifier(alpha=1, max_iter=1000)
         #,"dec tree" : DecisionTreeClassifier(max_depth=15)
         #,"gaussian" : GaussianNB()
         #,"rfc 5 10 1" : RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1)
@@ -56,8 +67,12 @@ def test_classifier(X,Y):
     #print(result)
     return result
 
+def passive_result(y,ticker):
+    ClassIdUpCnt = y.count(ClassIdUp)
+    ClassIdDownCnt = y.count(ClassIdDown)
+    return(ClassIdUpCnt / (ClassIdDownCnt + ClassIdUpCnt))
 
-def analyze_classifier(x,y, alignClassNumber=False, tickerName=""):
+def analyze_result(x,y, alignClassNumber=False, tickerName="", classifier=""):
 
     ClassIdUpCnt = y.count(ClassIdUp)
     ClassIdDownCnt = y.count(ClassIdDown)
@@ -93,7 +108,7 @@ def analyze_classifier(x,y, alignClassNumber=False, tickerName=""):
     ClassIdDownCnt = y.count(ClassIdDown)
 
     classifiers_result = test_classifier(x,y)
-    N=5
+    N=10
     for i in range(0,N):
         tmp = test_classifier(x,y)
         #print("Iteration N: %d" %(i))
@@ -102,18 +117,36 @@ def analyze_classifier(x,y, alignClassNumber=False, tickerName=""):
 
     for k in classifiers_result:
         classifiers_result[k] /= (N+1)
-    print(tickerName, classifiers_result, ClassIdUpCnt, ClassIdDownCnt, (ClassIdUpCnt)/ClassIdDownCnt)
+    return(classifiers_result[classifier])
 
 
 
 if __name__ == '__main__':
 
     stocks = dataLoader.load_stocks(BASE_PATH, TICKERS)
-
+    resultsl = []
+    resultss = []
+    fiftyline = []
+    resultsf = []
+    resultsn = []
+    resultsp = []
     for t in TICKERS:
+        print(t)
         ticker = stocks[t]
         y = dataBuilder.get_diff_response_of(ticker,futureTicks=0)
         x = dataBuilder.get_many(stocks)
         yc = dataBuilder.diff_response_to_class(y)
-        #print (t)
-        analyze_classifier( x[0:len(y)],yc, alignClassNumber=True, tickerName=t)
+        resultsl.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName=t, classifier='svm linear c10'))
+        resultss.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName=t, classifier='svm sigmoid'))
+        resultsf.append(analyze_result(x[0:len(y)], yc, alignClassNumber=False, tickerName=t, classifier='svm flinear c10'))
+        resultsn.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName=t, classifier='mlpc'))
+        resultsp.append(passive_result(yc,t))
+    print(sum(resultsl)/len(TICKERS))
+    print(sum(resultsn)/len(TICKERS))
+    print(sum(resultss)/len(TICKERS))
+    print(sum(resultsp)/len(TICKERS))
+    print(sum(resultsf)/len(TICKERS))
+    print(TICKERS)
+    plt.plot(sorted(resultsl), "bo", fiftyline, "r--",sorted(resultsf), "y*",sorted(resultsp),"g+",sorted(resultss),"m^",sorted(resultsn),"c>")
+    plt.show()
+
