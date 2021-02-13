@@ -36,7 +36,7 @@ def test_classifier(X,Y):
         #,"svm poly" : svm.SVC(kernel='poly', C=10, gamma='auto')
         ,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
         #,"adaboost" : AdaBoostClassifier()
-        #,"mlpc" : MLPClassifier(alpha=1, max_iter=1000)
+        #,"mlpc" : MLPClassifier(alpha=1,hidden_layer_sizes=(37,37), max_iter=1000)
         #,"dec tree" : DecisionTreeClassifier(max_depth=15)
         #,"gaussian" : GaussianNB()
         #,"rfc 5 10 1" : RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1)

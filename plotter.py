@@ -48,7 +48,7 @@ def test_classifier(X,Y):
         ,"svm sigmoid" : svm.SVC(kernel='sigmoid', C=10, gamma='auto')
         ,"svm flinear c10": svm.SVC(kernel='linear', C=10, gamma='auto')
         #,"adaboost" : AdaBoostClassifier()
-        ,"mlpc" : MLPClassifier(alpha=1, max_iter=1000)
+        ,"mlpc" : MLPClassifier(alpha=1,hidden_layer_sizes=(37,37), max_iter=1000)
         #,"dec tree" : DecisionTreeClassifier(max_depth=15)
         #,"gaussian" : GaussianNB()
         #,"rfc 5 10 1" : RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1)
@@ -109,7 +109,7 @@ def analyze_result(x,y, alignClassNumber=False, tickerName="", classifier=""):
     ClassIdDownCnt = y.count(ClassIdDown)
 
     classifiers_result = test_classifier(x,y)
-    N=10
+    N=1
     for i in range(0,N):
         tmp = test_classifier(x,y)
         #print("Iteration N: %d" %(i))

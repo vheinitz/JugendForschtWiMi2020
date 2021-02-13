@@ -128,8 +128,8 @@ if __name__ == '__main__':
     resultsl = []
     #resultss = []
     #fiftyline = []
-    #resultsf = []
-    resultsn = []
+    resultsf = []
+    #resultsn = []
     #resultsp = []
     for d in range(30):
         print(d)
@@ -139,21 +139,21 @@ if __name__ == '__main__':
         yc = dataBuilder.diff_response_to_class(y)
         resultsl.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName="COST", classifier='svm linear c10'))
         #resultss.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName="GOOG", classifier='svm sigmoid'))
-        #resultsf.append(analyze_result(x[0:len(y)], yc, alignClassNumber=False, tickerName="GOOG", classifier='svm flinear c10'))
-        resultsn.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName="GOOG", classifier='mlpc'))
+        resultsf.append(analyze_result(x[0:len(y)], yc, alignClassNumber=False, tickerName="GOOG", classifier='svm flinear c10'))
+        #resultsn.append(analyze_result(x[0:len(y)], yc, alignClassNumber=True, tickerName="GOOG", classifier='mlpc'))
         #resultsp.append(passive_result(yc,t))
     print(sum(resultsl)/30)
     print(np.std([resultsl]))
-    print(sum(resultsn)/30)
-    print(np.std([resultsn]))
+    #print(sum(resultsn)/30)
+    #print(np.std([resultsn]))
     #print(sum(resultss)/30)
     #print(np.std([resultss]))
     #print(sum(resultsp)/30)
     #print(np.std([resultsp]))
-    #print(sum(resultsf)/30)
-    #print(np.std([resultsf]))
+    print(sum(resultsf)/30)
+    print(np.std([resultsf]))
     #print(TICKERS)
     #plt.plot(resultsl, "bo", fiftyline, "r--",resultsf, "y*",resultsp,"g+",resultss,"m^",resultsn,"c>")
-    plt.plot(resultsl, "bo",resultsn,"c>")
+    plt.plot(resultsl, "bo",resultsf,"g>")
     plt.show()
 
