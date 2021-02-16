@@ -1,5 +1,5 @@
-#BASE_PATH="C:/tmp/yf"
-BASE_PATH="TickerData"
+BASE_PATH="C:/tmp/yf"
+#BASE_PATH="TickerData"
 ClassIdUp = 1
 ClassIdDown = 2
 MODEL_ROW_TICKS = 4
